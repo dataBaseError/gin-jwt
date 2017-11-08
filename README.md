@@ -1,23 +1,27 @@
 # JWT Middleware for Gin Framework
 
-[![GitHub tag](https://img.shields.io/github/tag/appleboy/gin-jwt.svg)](https://github.com/appleboy/gin-jwt/releases) [![GoDoc](https://godoc.org/github.com/appleboy/gin-jwt?status.svg)](https://godoc.org/github.com/appleboy/gin-jwt)  [![Build Status](http://drone.wu-boy.com/api/badges/appleboy/gin-jwt/status.svg)](http://drone.wu-boy.com/appleboy/gin-jwt) [![Go Report Card](https://goreportcard.com/badge/github.com/appleboy/gin-jwt)](https://goreportcard.com/report/github.com/appleboy/gin-jwt) [![codecov](https://codecov.io/gh/appleboy/gin-jwt/branch/master/graph/badge.svg)](https://codecov.io/gh/appleboy/gin-jwt) [![codebeat badge](https://codebeat.co/badges/c4015f07-df23-4c7c-95ba-9193a12e14b1)](https://codebeat.co/projects/github-com-appleboy-gin-jwt) [![Sourcegraph](https://sourcegraph.com/github.com/appleboy/gin-jwt/-/badge.svg)](https://sourcegraph.com/github.com/appleboy/gin-jwt?badge)
-
 This is a middleware for [Gin](https://github.com/gin-gonic/gin) framework.
 
 It uses [jwt-go](https://github.com/dgrijalva/jwt-go) to provide a jwt authentication middleware. It provides additional handler functions to provide the `login` api that will generate the token and an additional `refresh` handler that can be used to refresh tokens.
+
+# Reason for Fork
+
+The existing library does not update the creation time of the token when refreshed. Therefore refresh only extends the expire time of the new token.
+
+This fork updates the refresh handler to extend the refresh time of the new token. This change allows for the new token generated from the refresh to be refreshed for the `MaxRefresh` time to retrieve another token. More simply this change will allow for a user's authentication to be extended indefinitely with consistent refreshes (refreshing before `MaxRefresh` timeout since last refresh/login).
 
 ## Usage
 
 Download and install it:
 
 ```sh
-$ go get github.com/appleboy/gin-jwt
+$ go get github.com/dataBaseError/gin-jwt
 ```
 
 Import it in your code:
 
 ```go
-import "github.com/appleboy/gin-jwt"
+import "github.com/dataBaseError/gin-jwt"
 ```
 
 ## Example
@@ -33,7 +37,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/appleboy/gin-jwt"
+	"github.com/dataBaseError/gin-jwt"
 	"github.com/gin-gonic/gin"
 )
 

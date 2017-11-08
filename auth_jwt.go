@@ -33,6 +33,8 @@ type GinJWTMiddleware struct {
 	// This field allows clients to refresh their token until MaxRefresh has passed.
 	// Note that clients can refresh their token in the last moment of MaxRefresh.
 	// This means that the maximum validity timespan for a token is MaxRefresh + Timeout.
+	// If the token is refreshed the validity timespan will be expanded to MaxRefresh + Timeout
+	// from the current time.
 	// Optional, defaults to 0 meaning not refreshable.
 	MaxRefresh time.Duration
 
@@ -259,7 +261,7 @@ func (mw *GinJWTMiddleware) RefreshHandler(c *gin.Context) {
 	expire := mw.TimeFunc().Add(mw.Timeout)
 	newClaims["id"] = claims["id"]
 	newClaims["exp"] = expire.Unix()
-	newClaims["orig_iat"] = origIat
+	newClaims["orig_iat"] = mw.TimeFunc().Unix()
 
 	tokenString, err := newToken.SignedString(mw.Key)
 

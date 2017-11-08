@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/appleboy/gin-jwt"
+	"github.com/dataBaseError/gin-jwt"
 	"github.com/gin-gonic/gin"
 )
 
