@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/dataBaseError/gin-jwt"
-	"github.com/gin-gonic/gin"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 func helloHandler(c *gin.Context) {
